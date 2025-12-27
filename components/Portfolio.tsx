@@ -27,9 +27,10 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
   const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [direction, setDirection] = useState<'horizontal' | 'vertical'>('horizontal');
-  const [isAnimating, setIsAnimating] = useState(false);
+  const [animationKey, setAnimationKey] = useState(0);
   const touchStartX = useRef(0);
   const touchStartY = useRef(0);
+  const isNavigatingRef = useRef(false);
 
   // Build sections with their slides
   const sections = useMemo<Section[]>(() => {
@@ -98,6 +99,8 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
 
   // Parse URL and update current section/slide
   useEffect(() => {
+    if (isNavigatingRef.current) return;
+    
     const pathParts = pathname.split('/').filter(Boolean);
     if (pathParts.length === 0) return;
 
@@ -115,15 +118,17 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
         setDirection('vertical');
         setCurrentSectionIndex(sectionIndex);
         setCurrentSlideIndex(validSlideIndex);
+        setAnimationKey(prev => prev + 1);
       } else if (validSlideIndex !== currentSlideIndex) {
         setDirection('horizontal');
         setCurrentSlideIndex(validSlideIndex);
+        setAnimationKey(prev => prev + 1);
       }
     }
   }, [pathname, sections]);
 
   const navigateToSlide = (sectionIndex: number, slideIndex: number) => {
-    if (isAnimating) return;
+    if (isNavigatingRef.current) return;
     
     const section = sections[sectionIndex];
     if (!section) return;
@@ -137,7 +142,7 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
       setDirection('horizontal');
     }
 
-    setIsAnimating(true);
+    isNavigatingRef.current = true;
     
     // Build URL
     const url = validSlideIndex === 0
@@ -147,8 +152,8 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
     router.push(url);
 
     setTimeout(() => {
-      setIsAnimating(false);
-    }, 500);
+      isNavigatingRef.current = false;
+    }, 600);
   };
 
   const goToNext = () => {
@@ -237,10 +242,8 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
       onTouchEnd={handleTouchEnd}
     >
       <div
-        className={`${styles.slideWrapper} ${
-          isAnimating ? styles[`animate${direction.charAt(0).toUpperCase() + direction.slice(1)}`] : ''
-        }`}
-        key={`${currentSectionIndex}-${currentSlideIndex}`}
+        className={`${styles.slideWrapper} ${styles[`animate${direction.charAt(0).toUpperCase() + direction.slice(1)}`]}`}
+        key={animationKey}
       >
         {currentSlide}
       </div>
