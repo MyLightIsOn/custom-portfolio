@@ -3,19 +3,20 @@
   height: 100vh;
   overflow: hidden;
   position: relative;
+  background: var(--color-background);
 }
 
 .slideWrapper {
   width: 100%;
   height: 100%;
-  transition: transform var(--duration-slow) var(--easing);
+  position: relative;
 }
 
-.animate-horizontal {
+.animateHorizontal {
   animation: slideHorizontal var(--duration-slow) var(--easing);
 }
 
-.animate-vertical {
+.animateVertical {
   animation: slideVertical var(--duration-slow) var(--easing);
 }
 
