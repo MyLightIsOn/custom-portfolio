@@ -112,6 +112,17 @@
   background: var(--color-primary);
 }
 
+.menuItemFocused {
+  background: var(--color-background);
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+}
+
+.menuItemActive.menuItemFocused {
+  background: var(--color-primary);
+  outline-color: var(--color-accent);
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
