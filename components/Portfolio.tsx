@@ -27,8 +27,9 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
   
   const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const [nextSlideIndex, setNextSlideIndex] = useState<number | null>(null);
   const [isAnimating, setIsAnimating] = useState(false);
-  const [animationDirection, setAnimationDirection] = useState<'left' | 'right'>('right');
+  const [animationDirection, setAnimationDirection] = useState<'forward' | 'backward'>('forward');
   
   const touchStartX = useRef(0);
   const touchStartY = useRef(0);
@@ -122,20 +123,20 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
         : `/projects/${section.id}/${currentSlideIndex}`
       : `/${section.id}`;
 
-    // Use replace instead of push to avoid adding to history on every slide change
     window.history.replaceState({}, '', url);
   }, [currentSectionIndex, currentSlideIndex, sections]);
 
-  const navigateToSlide = (sectionIndex: number, slideIndex: number, direction: 'left' | 'right') => {
+  const navigateToSlide = (targetSlideIndex: number, direction: 'forward' | 'backward') => {
     if (isAnimating) return;
 
     setAnimationDirection(direction);
+    setNextSlideIndex(targetSlideIndex);
     setIsAnimating(true);
 
-    // Wait for animation to complete before updating state
+    // Wait for animation to complete
     setTimeout(() => {
-      setCurrentSectionIndex(sectionIndex);
-      setCurrentSlideIndex(slideIndex);
+      setCurrentSlideIndex(targetSlideIndex);
+      setNextSlideIndex(null);
       setIsAnimating(false);
     }, 500); // Match CSS animation duration
   };
@@ -143,13 +144,13 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
   const goToNext = () => {
     const currentSection = sections[currentSectionIndex];
     if (currentSlideIndex < currentSection.slides.length - 1) {
-      navigateToSlide(currentSectionIndex, currentSlideIndex + 1, 'left');
+      navigateToSlide(currentSlideIndex + 1, 'forward');
     }
   };
 
   const goToPrevious = () => {
     if (currentSlideIndex > 0) {
-      navigateToSlide(currentSectionIndex, currentSlideIndex - 1, 'right');
+      navigateToSlide(currentSlideIndex - 1, 'backward');
     }
   };
 
@@ -197,20 +198,38 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
 
   const hasPrevious = currentSlideIndex > 0;
   const hasNext = currentSlideIndex < sections[currentSectionIndex].slides.length - 1;
+  
   const currentSlide = sections[currentSectionIndex]?.slides[currentSlideIndex];
+  const incomingSlide = nextSlideIndex !== null ? sections[currentSectionIndex]?.slides[nextSlideIndex] : null;
 
   return (
     <div className={styles.portfolio} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
-      <div 
-        className={`${styles.slideWrapper} ${
-          isAnimating 
-            ? animationDirection === 'left' 
-              ? styles.slideOutLeft 
-              : styles.slideOutRight
-            : ''
-        }`}
-      >
-        {currentSlide}
+      <div className={styles.slidesContainer}>
+        {/* Current slide - slides out */}
+        <div 
+          className={`${styles.slideWrapper} ${
+            isAnimating 
+              ? animationDirection === 'forward' 
+                ? styles.slideOutLeft 
+                : styles.slideOutRight
+              : styles.slideActive
+          }`}
+        >
+          {currentSlide}
+        </div>
+        
+        {/* Incoming slide - slides in */}
+        {isAnimating && incomingSlide && (
+          <div 
+            className={`${styles.slideWrapper} ${
+              animationDirection === 'forward' 
+                ? styles.slideInRight 
+                : styles.slideInLeft
+            }`}
+          >
+            {incomingSlide}
+          </div>
+        )}
       </div>
       
       <FloatingNav

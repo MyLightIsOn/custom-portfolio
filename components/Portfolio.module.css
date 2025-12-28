@@ -6,18 +6,75 @@
   background: var(--color-background);
 }
 
+.slidesContainer {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
 .slideWrapper {
   width: 100%;
   height: 100%;
-  transition: transform var(--duration-slow) var(--easing), opacity var(--duration-slow) var(--easing);
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
+.slideActive {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* Forward: current slides left, new comes from right */
 .slideOutLeft {
-  transform: translateX(-100%);
-  opacity: 0;
+  animation: slideOutToLeft var(--duration-slow) var(--easing) forwards;
 }
 
+.slideInRight {
+  animation: slideInFromRight var(--duration-slow) var(--easing) forwards;
+}
+
+/* Backward: current slides right, new comes from left */
 .slideOutRight {
-  transform: translateX(100%);
-  opacity: 0;
+  animation: slideOutToRight var(--duration-slow) var(--easing) forwards;
+}
+
+.slideInLeft {
+  animation: slideInFromLeft var(--duration-slow) var(--easing) forwards;
+}
+
+@keyframes slideOutToLeft {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutToRight {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }
