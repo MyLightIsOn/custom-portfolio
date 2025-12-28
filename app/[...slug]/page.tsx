@@ -12,15 +12,15 @@ export async function generateStaticParams() {
     { slug: ['education'] },
   ];
 
-  // Add project pages with their sub-slides
+  // Add project pages with new URL structure: /projects/project-id or /projects/project-id/slideIndex
   defaultContent.projects.forEach((project) => {
-    // First slide (overview)
-    params.push({ slug: [project.id] });
+    // First slide (overview): /projects/project-id
+    params.push({ slug: ['projects', project.id] });
     
-    // Additional slides if they exist
+    // Additional slides: /projects/project-id/1, /projects/project-id/2, etc.
     if (project.slides && project.slides.length > 0) {
       project.slides.forEach((_, index) => {
-        params.push({ slug: [project.id, String(index + 1)] });
+        params.push({ slug: ['projects', project.id, String(index + 1)] });
       });
     }
   });

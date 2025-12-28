@@ -26,11 +26,12 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
   const router = useRouter();
   const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
-  const [direction, setDirection] = useState<'horizontal' | 'vertical'>('horizontal');
   const [animationKey, setAnimationKey] = useState(0);
   const touchStartX = useRef(0);
   const touchStartY = useRef(0);
   const isNavigatingRef = useRef(false);
+  const prevSectionRef = useRef(0);
+  const prevSlideRef = useRef(0);
 
   // Build sections with their slides
   const sections = useMemo<Section[]>(() => {
@@ -60,7 +61,7 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
     // Project sections (each project is a section with multiple slides)
     content.projects.forEach((project, projectIndex) => {
       const projectSlides: React.ReactNode[] = [];
-      
+
       // First slide: overview
       projectSlides.push(
         <ProjectSlide key={`${project.id}-0`} project={project} />
@@ -99,56 +100,77 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
 
   // Parse URL and update current section/slide
   useEffect(() => {
-    if (isNavigatingRef.current) return;
-    
     const pathParts = pathname.split('/').filter(Boolean);
     if (pathParts.length === 0) return;
 
-    const [sectionId, slideIndexStr] = pathParts;
+    // Determine section and slide from URL structure
+    let sectionId: string;
+    let slideIndex = 0;
+
+    // Check URL pattern to determine section
+    if (pathParts[0] === 'home' || pathParts[0] === 'about' || pathParts[0] === 'education') {
+      // Simple sections: /home, /about, /education
+      sectionId = pathParts[0];
+      slideIndex = 0;
+    } else if (pathParts[0] === 'projects') {
+      // Project sections: /projects/project-1 or /projects/project-1/1
+      sectionId = pathParts[1];
+      slideIndex = pathParts[2] ? parseInt(pathParts[2], 10) : 0;
+    } else {
+      // Fallback for old URL structure
+      sectionId = pathParts[0];
+      slideIndex = pathParts[1] ? parseInt(pathParts[1], 10) : 0;
+    }
+
     const sectionIndex = sections.findIndex((s) => s.id === sectionId);
-    
+
     if (sectionIndex !== -1) {
-      const slideIndex = slideIndexStr ? parseInt(slideIndexStr, 10) : 0;
       const validSlideIndex = Math.min(
         slideIndex,
         sections[sectionIndex].slides.length - 1
       );
 
-      if (sectionIndex !== currentSectionIndex) {
-        setDirection('vertical');
+      const sectionChanged = sectionIndex !== prevSectionRef.current;
+      const slideChanged = validSlideIndex !== prevSlideRef.current;
+
+      if (sectionChanged || slideChanged) {
         setCurrentSectionIndex(sectionIndex);
         setCurrentSlideIndex(validSlideIndex);
         setAnimationKey(prev => prev + 1);
-      } else if (validSlideIndex !== currentSlideIndex) {
-        setDirection('horizontal');
-        setCurrentSlideIndex(validSlideIndex);
-        setAnimationKey(prev => prev + 1);
+
+        // Update refs
+        prevSectionRef.current = sectionIndex;
+        prevSlideRef.current = validSlideIndex;
       }
     }
   }, [pathname, sections]);
 
   const navigateToSlide = (sectionIndex: number, slideIndex: number) => {
     if (isNavigatingRef.current) return;
-    
+
     const section = sections[sectionIndex];
     if (!section) return;
 
     const validSlideIndex = Math.min(slideIndex, section.slides.length - 1);
-    
-    // Determine direction
-    if (sectionIndex !== currentSectionIndex) {
-      setDirection('vertical');
-    } else {
-      setDirection('horizontal');
-    }
 
     isNavigatingRef.current = true;
-    
-    // Build URL
-    const url = validSlideIndex === 0
-      ? `/${section.id}`
-      : `/${section.id}/${validSlideIndex}`;
-    
+
+    // Build URL based on section type
+    let url: string;
+
+    // Check if this is a project section (sections after home, about, education)
+    const isProject = sectionIndex > 2;
+
+    if (isProject) {
+      // Projects use /projects/project-id or /projects/project-id/slideIndex
+      url = validSlideIndex === 0
+        ? `/projects/${section.id}`
+        : `/projects/${section.id}/${validSlideIndex}`;
+    } else {
+      // Simple sections use /section-id
+      url = `/${section.id}`;
+    }
+
     router.push(url);
 
     setTimeout(() => {
@@ -158,27 +180,20 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
 
   const goToNext = () => {
     const currentSection = sections[currentSectionIndex];
-    
-    // If there's a next slide in current section
+
+    // Only navigate if there's a next slide in the CURRENT section
     if (currentSlideIndex < currentSection.slides.length - 1) {
       navigateToSlide(currentSectionIndex, currentSlideIndex + 1);
     }
-    // Otherwise go to next section
-    else if (currentSectionIndex < sections.length - 1) {
-      navigateToSlide(currentSectionIndex + 1, 0);
-    }
+    // Otherwise do nothing - we're at the end of this section
   };
 
   const goToPrevious = () => {
-    // If we're not on the first slide of current section
+    // Only navigate if we're not on the first slide of current section
     if (currentSlideIndex > 0) {
       navigateToSlide(currentSectionIndex, currentSlideIndex - 1);
     }
-    // Otherwise go to previous section's last slide
-    else if (currentSectionIndex > 0) {
-      const prevSection = sections[currentSectionIndex - 1];
-      navigateToSlide(currentSectionIndex - 1, prevSection.slides.length - 1);
-    }
+    // Otherwise do nothing - we're at the beginning of this section
   };
 
   const handleMenuNavigate = (sectionId: string) => {
@@ -227,11 +242,8 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
     }
   };
 
-  const hasPrevious =
-    currentSectionIndex > 0 || currentSlideIndex > 0;
-  const hasNext =
-    currentSectionIndex < sections.length - 1 ||
-    currentSlideIndex < sections[currentSectionIndex].slides.length - 1;
+  const hasPrevious = currentSlideIndex > 0;
+  const hasNext = currentSlideIndex < sections[currentSectionIndex].slides.length - 1;
 
   const currentSlide = sections[currentSectionIndex]?.slides[currentSlideIndex];
 
@@ -242,7 +254,7 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
       onTouchEnd={handleTouchEnd}
     >
       <div
-        className={`${styles.slideWrapper} ${styles[`animate${direction.charAt(0).toUpperCase() + direction.slice(1)}`]}`}
+        className={`${styles.slideWrapper} ${styles.animateHorizontal}`}
         key={animationKey}
       >
         {currentSlide}
