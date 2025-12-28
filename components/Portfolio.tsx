@@ -22,52 +22,42 @@ interface Section {
 }
 
 export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
-  const pathname = usePathname();
   const router = useRouter();
+  const pathname = usePathname();
+  
   const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
-  const [animationKey, setAnimationKey] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [animationDirection, setAnimationDirection] = useState<'left' | 'right'>('right');
+  
   const touchStartX = useRef(0);
   const touchStartY = useRef(0);
-  const isNavigatingRef = useRef(false);
-  const prevSectionRef = useRef(0);
-  const prevSlideRef = useRef(0);
 
-  // Build sections with their slides
   const sections = useMemo<Section[]>(() => {
     const sectionList: Section[] = [];
 
-    // Home section (single slide)
     sectionList.push({
       id: 'home',
       title: 'Home',
       slides: [<HomeSlide key="home-0" personal={content.personal} />],
     });
 
-    // About section (single slide)
     sectionList.push({
       id: 'about',
       title: 'About',
       slides: [<AboutSlide key="about-0" about={content.about} />],
     });
 
-    // Education section (single slide)
     sectionList.push({
       id: 'education',
       title: 'Education',
       slides: [<EducationSlide key="education-0" education={content.education} />],
     });
 
-    // Project sections (each project is a section with multiple slides)
-    content.projects.forEach((project, projectIndex) => {
+    content.projects.forEach((project) => {
       const projectSlides: React.ReactNode[] = [];
+      projectSlides.push(<ProjectSlide key={`${project.id}-0`} project={project} />);
 
-      // First slide: overview
-      projectSlides.push(
-        <ProjectSlide key={`${project.id}-0`} project={project} />
-      );
-
-      // Additional slides if they exist
       if (project.slides && project.slides.length > 0) {
         project.slides.forEach((slideContent, slideIndex) => {
           projectSlides.push(
@@ -90,120 +80,87 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
     return sectionList;
   }, [content]);
 
-  // Navigation items for the menu
   const navItems = useMemo(() => {
-    return sections.map((section) => ({
-      id: section.id,
-      label: section.title,
-    }));
+    return sections.map((section) => ({ id: section.id, label: section.title }));
   }, [sections]);
 
-  // Parse URL and update current section/slide
+  // Sync URL on mount
   useEffect(() => {
     const pathParts = pathname.split('/').filter(Boolean);
     if (pathParts.length === 0) return;
 
-    // Determine section and slide from URL structure
     let sectionId: string;
     let slideIndex = 0;
 
-    // Check URL pattern to determine section
     if (pathParts[0] === 'home' || pathParts[0] === 'about' || pathParts[0] === 'education') {
-      // Simple sections: /home, /about, /education
       sectionId = pathParts[0];
-      slideIndex = 0;
     } else if (pathParts[0] === 'projects') {
-      // Project sections: /projects/project-1 or /projects/project-1/1
       sectionId = pathParts[1];
       slideIndex = pathParts[2] ? parseInt(pathParts[2], 10) : 0;
     } else {
-      // Fallback for old URL structure
       sectionId = pathParts[0];
       slideIndex = pathParts[1] ? parseInt(pathParts[1], 10) : 0;
     }
 
     const sectionIndex = sections.findIndex((s) => s.id === sectionId);
-
     if (sectionIndex !== -1) {
-      const validSlideIndex = Math.min(
-        slideIndex,
-        sections[sectionIndex].slides.length - 1
-      );
-
-      const sectionChanged = sectionIndex !== prevSectionRef.current;
-      const slideChanged = validSlideIndex !== prevSlideRef.current;
-
-      if (sectionChanged || slideChanged) {
-        setCurrentSectionIndex(sectionIndex);
-        setCurrentSlideIndex(validSlideIndex);
-        setAnimationKey(prev => prev + 1);
-
-        // Update refs
-        prevSectionRef.current = sectionIndex;
-        prevSlideRef.current = validSlideIndex;
-      }
+      const validSlideIndex = Math.min(slideIndex, sections[sectionIndex].slides.length - 1);
+      setCurrentSectionIndex(sectionIndex);
+      setCurrentSlideIndex(validSlideIndex);
     }
-  }, [pathname, sections]);
+  }, []); // Only on mount
 
-  const navigateToSlide = (sectionIndex: number, slideIndex: number) => {
-    if (isNavigatingRef.current) return;
-
-    const section = sections[sectionIndex];
+  // Update URL after state changes (without triggering navigation)
+  useEffect(() => {
+    const section = sections[currentSectionIndex];
     if (!section) return;
 
-    const validSlideIndex = Math.min(slideIndex, section.slides.length - 1);
-
-    isNavigatingRef.current = true;
-
-    // Build URL based on section type
-    let url: string;
-
-    // Check if this is a project section (sections after home, about, education)
-    const isProject = sectionIndex > 2;
-
-    if (isProject) {
-      // Projects use /projects/project-id or /projects/project-id/slideIndex
-      url = validSlideIndex === 0
+    const isProject = currentSectionIndex > 2;
+    const url = isProject
+      ? currentSlideIndex === 0
         ? `/projects/${section.id}`
-        : `/projects/${section.id}/${validSlideIndex}`;
-    } else {
-      // Simple sections use /section-id
-      url = `/${section.id}`;
-    }
+        : `/projects/${section.id}/${currentSlideIndex}`
+      : `/${section.id}`;
 
-    router.push(url);
+    // Use replace instead of push to avoid adding to history on every slide change
+    window.history.replaceState({}, '', url);
+  }, [currentSectionIndex, currentSlideIndex, sections]);
 
+  const navigateToSlide = (sectionIndex: number, slideIndex: number, direction: 'left' | 'right') => {
+    if (isAnimating) return;
+
+    setAnimationDirection(direction);
+    setIsAnimating(true);
+
+    // Wait for animation to complete before updating state
     setTimeout(() => {
-      isNavigatingRef.current = false;
-    }, 600);
+      setCurrentSectionIndex(sectionIndex);
+      setCurrentSlideIndex(slideIndex);
+      setIsAnimating(false);
+    }, 500); // Match CSS animation duration
   };
 
   const goToNext = () => {
     const currentSection = sections[currentSectionIndex];
-
-    // Only navigate if there's a next slide in the CURRENT section
     if (currentSlideIndex < currentSection.slides.length - 1) {
-      navigateToSlide(currentSectionIndex, currentSlideIndex + 1);
+      navigateToSlide(currentSectionIndex, currentSlideIndex + 1, 'left');
     }
-    // Otherwise do nothing - we're at the end of this section
   };
 
   const goToPrevious = () => {
-    // Only navigate if we're not on the first slide of current section
     if (currentSlideIndex > 0) {
-      navigateToSlide(currentSectionIndex, currentSlideIndex - 1);
+      navigateToSlide(currentSectionIndex, currentSlideIndex - 1, 'right');
     }
-    // Otherwise do nothing - we're at the beginning of this section
   };
 
   const handleMenuNavigate = (sectionId: string) => {
     const sectionIndex = sections.findIndex((s) => s.id === sectionId);
-    if (sectionIndex !== -1) {
-      navigateToSlide(sectionIndex, 0);
+    if (sectionIndex !== -1 && !isAnimating) {
+      setCurrentSectionIndex(sectionIndex);
+      setCurrentSlideIndex(0);
     }
   };
 
-  // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowRight') {
@@ -214,13 +171,10 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
         goToPrevious();
       }
     };
-
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentSectionIndex, currentSlideIndex, sections]);
+  }, [currentSectionIndex, currentSlideIndex, isAnimating]);
 
-  // Touch navigation
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
     touchStartY.current = e.touches[0].clientY;
@@ -232,7 +186,6 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
     const diffX = touchStartX.current - touchEndX;
     const diffY = touchStartY.current - touchEndY;
 
-    // Horizontal swipe
     if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
       if (diffX > 0) {
         goToNext();
@@ -244,22 +197,22 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
 
   const hasPrevious = currentSlideIndex > 0;
   const hasNext = currentSlideIndex < sections[currentSectionIndex].slides.length - 1;
-
   const currentSlide = sections[currentSectionIndex]?.slides[currentSlideIndex];
 
   return (
-    <div
-      className={styles.portfolio}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
-    >
-      <div
-        className={`${styles.slideWrapper} ${styles.animateHorizontal}`}
-        key={animationKey}
+    <div className={styles.portfolio} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+      <div 
+        className={`${styles.slideWrapper} ${
+          isAnimating 
+            ? animationDirection === 'left' 
+              ? styles.slideOutLeft 
+              : styles.slideOutRight
+            : ''
+        }`}
       >
         {currentSlide}
       </div>
-
+      
       <FloatingNav
         items={navItems}
         currentSlide={sections[currentSectionIndex]?.id || 'home'}
@@ -272,4 +225,3 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
     </div>
   );
 };
-
