@@ -71,7 +71,7 @@ export const portfolioContent: PortfolioContent = {
   },
   about: {
     title: 'About Me',
-    content: 'I\'m a Next.js engineer with a strong background in user experience design and engineering. I specialize in creating intuitive, performant interfaces that delight users.',
+    content: 'I have a hard time defining myself. I\'m a designer, developer, and general technology tinkerer. My hobby is discovering interesting technology and seeing what I can build with it. With over 15 years of experience blending human-centered design with cutting-edge technology, I specialize in crafting innovative digital experiences that bridge the gap between creativity and technical possibilities.',
     skills: [
       'Next.js',
       'React',

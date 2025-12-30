@@ -1,8 +1,8 @@
 import { Portfolio } from '@/components/Portfolio';
-import { defaultContent } from '@/config/content';
+import { portfolioContent } from '@/config/content';
 
 export default function SlidePage() {
-  return <Portfolio content={defaultContent} />;
+  return <Portfolio content={portfolioContent} />;
 }
 
 export async function generateStaticParams() {
@@ -13,7 +13,7 @@ export async function generateStaticParams() {
   ];
 
   // Add project pages with new URL structure: /projects/project-id or /projects/project-id/slideIndex
-  defaultContent.projects.forEach((project) => {
+  portfolioContent.projects.forEach((project) => {
     // First slide (overview): /projects/project-id
     params.push({ slug: ['projects', project.id] });
     
