@@ -1,8 +1,8 @@
 import { Portfolio } from '@/components/Portfolio';
-import { defaultContent } from '@/config/content';
+import { portfolioContent } from '@/config/content';
 
 export default function SlidePage() {
-  return <Portfolio content={defaultContent} />;
+  return <Portfolio content={portfolioContent} />;
 }
 
 export async function generateStaticParams() {
@@ -13,10 +13,10 @@ export async function generateStaticParams() {
   ];
 
   // Add project pages with their sub-slides
-  defaultContent.projects.forEach((project) => {
+  portfolioContent.projects.forEach((project) => {
     // First slide (overview)
     params.push({ slide: project.id });
-    
+
     // Additional slides if they exist
     if (project.slides && project.slides.length > 0) {
       project.slides.forEach((_, index) => {

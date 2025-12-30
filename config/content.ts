@@ -63,97 +63,74 @@ export interface PortfolioContent {
   projects: Project[];
 }
 
-export const defaultContent: PortfolioContent = {
+export const portfolioContent: PortfolioContent = {
   personal: {
     name: 'Lawrence Kim',
-    title: 'UX Engineer',
-    bio: 'Next.js engineer with a background in user experience design and engineering.',
-    email: 'hello@example.com',
-    location: 'San Francisco, CA',
+    title: 'Staff AI Innovation Engineer Candidate',
+    bio: 'Building the future of employee onboarding with Anthropic\'s Agent Skills',
+    location: 'Las Vegas, NV',
   },
   about: {
-    title: 'About Me',
-    content: 'I\'m a Next.js engineer with a strong background in user experience design and engineering. I specialize in creating intuitive, performant interfaces that delight users.',
+    title: 'Why Airbnb?',
+    content: 'I\'m passionate about using AI to solve real-world problems at scale. Airbnb\'s commitment to innovative employee experiences and your work in AI-powered tools aligns perfectly with my expertise in building intelligent systems. I\'ve spent the last week building AirOnboard to demonstrate how Agent Skills can transform onboarding—not just as a concept, but as a working product.',
     skills: [
       'Next.js',
-      'React',
       'TypeScript',
-      'UX Design',
+      'AI/LLM Integration',
+      'Agent Skills Architecture',
+      'Product Thinking',
+      'System Design',
       'UX Engineering',
-      'Interaction Design',
-      'Prototyping',
-      'Tailwind CSS',
     ],
   },
   education: [
     {
-      institution: 'University of Design',
+      institution: 'Your University',
       degree: 'Bachelor of Science',
-      field: 'Human-Computer Interaction',
-      year: '2020',
-      description: 'Focused on interaction design and frontend development.',
+      field: 'Computer Science',
+      year: '20XX',
+      description: 'Focus on artificial intelligence and human-computer interaction.',
     },
   ],
   projects: [
     {
-      id: 'project-1',
-      title: 'E-Commerce Platform',
-      description: 'A modern e-commerce platform built with Next.js and Stripe',
-      longDescription: 'Built a full-featured e-commerce platform with product management, shopping cart, checkout flow, and order management. Implemented advanced UX patterns for search, filtering, and product discovery.',
-      technologies: ['Next.js', 'React', 'TypeScript', 'Stripe', 'Tailwind CSS'],
-      image: '/projects/ecommerce.jpg',
+      id: 'aironboard',
+      title: 'AirOnboard',
+      description: 'Intelligent onboarding system powered by Anthropic\'s Agent Skills',
+      longDescription: 'A production-ready demo showcasing how Agent Skills can create personalized, scalable employee onboarding experiences that reduce context usage by 93% while delivering role-aware guidance.',
+      technologies: ['Next.js 15', 'TypeScript', 'Anthropic Claude API', 'Agent Skills', 'Tailwind CSS', 'Shadcn/ui'],
+      link: 'https://aironboard-demo.vercel.app',
+      github: 'https://github.com/yourusername/aironboard',
       slides: [
         {
-          title: 'Overview',
-          content: 'Built a full-featured e-commerce platform with product management, shopping cart, checkout flow, and order management.',
-        },
-        {
-          title: 'Key Features',
-          content: 'Advanced search and filtering, real-time inventory management, secure payment processing with Stripe, responsive design optimized for mobile shopping.',
-        },
-        {
-          title: 'Impact',
-          content: 'Increased conversion rates by 35% and reduced cart abandonment by 20% through optimized checkout flow and improved UX.',
-        },
-      ],
-    },
-    {
-      id: 'project-2',
-      title: 'Design System',
-      description: 'Component library and design system for enterprise applications',
-      longDescription: 'Created a comprehensive design system with 50+ components, extensive documentation, and accessibility guidelines. Used by multiple teams across the organization.',
-      technologies: ['React', 'TypeScript', 'Storybook', 'Figma'],
-      image: '/projects/design-system.jpg',
-      slides: [
-        {
-          title: 'Overview',
-          content: 'Created a comprehensive design system with 50+ components, extensive documentation, and accessibility guidelines.',
-        },
-        {
-          title: 'Components',
-          content: 'Built reusable components including buttons, forms, modals, tables, and data visualization elements. All components follow WCAG 2.1 AA standards.',
-        },
-      ],
-    },
-    {
-      id: 'project-3',
-      title: 'Analytics Dashboard',
-      description: 'Real-time analytics dashboard with interactive visualizations',
-      longDescription: 'Developed a real-time analytics dashboard featuring interactive charts, customizable widgets, and advanced filtering. Handles millions of data points with optimized rendering.',
-      technologies: ['Next.js', 'D3.js', 'WebSockets', 'PostgreSQL'],
-      image: '/projects/analytics.jpg',
-      slides: [
-        {
-          title: 'Overview',
-          content: 'Developed a real-time analytics dashboard featuring interactive charts, customizable widgets, and advanced filtering.',
-        },
-        {
-          title: 'Performance',
-          content: 'Optimized rendering to handle millions of data points. Implemented virtual scrolling and lazy loading for smooth performance.',
-        },
-        {
-          title: 'Real-time Updates',
-          content: 'WebSocket integration provides live data updates without page refresh. Users can monitor metrics in real-time with sub-second latency.',
+          title: 'The Problem',
+          content: `Employee onboarding at scale is broken.
+
+**Traditional Challenges:**
+
+• Generic, one-size-fits-all content that doesn't adapt to roles
+
+• Information overload—new hires drown in policies, docs, and tasks
+
+• Manual curation required for each role and department
+
+• Static content that quickly becomes outdated
+
+• No intelligent guidance or personalized recommendations
+
+
+**The AI Approach Falls Short Too:**
+
+• Loading all content upfront = 35,000+ tokens per request
+
+• Context bloat makes responses slow and expensive
+
+• Difficult to maintain as company grows
+
+• Can't scale beyond a handful of roles
+
+
+**What if we could deliver personalized onboarding that's fast, scalable, and intelligent?**`,
         },
       ],
     },
