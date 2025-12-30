@@ -132,6 +132,44 @@ export const portfolioContent: PortfolioContent = {
 
 **What if we could deliver personalized onboarding that's fast, scalable, and intelligent?**`,
         },
+        {
+          title: 'The Solution',
+          content: `**Agent Skills: Progressive Disclosure Architecture**
+
+Instead of loading everything upfront, Agent Skills uses a 3-level progressive disclosure system:
+
+
+**Level 1: Orchestrator (100 tokens)**
+
+• Routes to the correct role-specific skill
+
+• Loads instantly—no unnecessary context
+
+• Scales to unlimited roles without overhead
+
+
+**Level 2: Role Guidance (2,500 tokens)**
+
+• Personalized instructions and workflows
+
+• Role-specific policies, tasks, and recommendations
+
+• Loads only when the user selects their role
+
+
+**Level 3: Resources (On-Demand)**
+
+• Fetches specific documents only when needed
+
+• No upfront loading—queries as required
+
+• Smart caching for frequently accessed content
+
+
+**Result: 2,600 tokens vs 35,000 tokens = 93% reduction**
+
+Lightning-fast responses, lower costs, infinite scalability.`,
+        },
       ],
     },
   ],
