@@ -80,27 +80,37 @@ export const portfolioContent: PortfolioContent = {
   },
   about: {
     title: 'About Me',
-    content: 'I have a hard time defining myself. I\'m a designer, developer, and general technology tinkerer. My hobby is discovering interesting technology and seeing what I can build with it. With over 15 years of experience blending human-centered design with cutting-edge technology, I specialize in crafting innovative digital experiences that bridge the gap between creativity and technical possibilities.',
+    content: 'I have a hard time defining myself. I\'m a designer, developer, and general technology tinkerer. My hobby is discovering interesting technology and seeing what I can build with it. For over 15 years, I have been blending human-centered design with cutting-edge technology. Here are a collection of some of the things I\'m good at.',
     skills: [
-      'Next.js',
-      'React',
+      'JS Frameworks',
       'TypeScript',
       'AI/LLM Integration',
-      'Agent Skills Architecture',
+      'AI System Design',
       'Product Thinking',
       'System Design',
       'UX Engineering',
       'Interaction Design',
       'Prototyping',
-      'Tailwind CSS',
     ],
-    slides: [
+    /*slides: [
       {
         title: 'Experience & Background',
         content: 'Throughout my career, I have worked with startups and large enterprises to deliver high-quality digital products. I am passionate about clean code, accessibility, and user-centric design.'
       }
-    ]
+    ]*/
   },
+  experience: [
+    {
+      company: 'T-Mobile',
+      position: 'Technical Product Manager (Accessibilitly & AI Tooling)',
+      period: 'Dec 2024 - Present',
+      description: 'Focus on artificial intelligence and human-computer interaction.',
+      achievements: [
+        'Designed and built a new AI-powered onboarding experience for T-Mobile\'s new AirOnboard product.',
+        'Built a new AI-powered onboarding experience for T-Mobile\'s new AirOnboard product.',
+      ],
+    },
+  ],
   education: [
     {
       institution: 'Your University',

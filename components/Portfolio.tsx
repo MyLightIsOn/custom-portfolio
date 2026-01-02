@@ -7,6 +7,7 @@ import { FloatingNav } from './FloatingNav';
 import { HomeSlide } from './slides/HomeSlide';
 import { AboutSlide } from './slides/AboutSlide';
 import { EducationSlide } from './slides/EducationSlide';
+import { ExperienceSlide } from './slides/ExperienceSlide';
 import { ProjectSlide } from './slides/ProjectSlide';
 import { ProjectSubSlide } from './slides/ProjectSubSlide';
 import { GenericSubSlide } from './slides/GenericSubSlide';
@@ -84,6 +85,16 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
       ],
     });
 
+    if (content.experience && content.experience.length > 0) {
+      sectionList.push({
+        id: 'experience',
+        title: 'Experience',
+        slides: [
+          <ExperienceSlide key="experience-0" experience={content.experience} />,
+        ],
+      });
+    }
+
     content.projects.forEach((project) => {
       const projectSlides: React.ReactNode[] = [];
       projectSlides.push(<ProjectSlide key={`${project.id}-0`} project={project} />);
@@ -122,7 +133,7 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
     let sectionId: string;
     let slideIndex = 0;
 
-    if (pathParts[0] === 'home' || pathParts[0] === 'about' || pathParts[0] === 'education') {
+    if (pathParts[0] === 'home' || pathParts[0] === 'about' || pathParts[0] === 'education' || pathParts[0] === 'experience') {
       sectionId = pathParts[0];
       slideIndex = pathParts[1] ? parseInt(pathParts[1], 10) : 0;
     } else if (pathParts[0] === 'projects') {
@@ -146,7 +157,7 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
     const section = sections[currentSectionIndex];
     if (!section) return;
 
-    const isProject = currentSectionIndex > 2;
+    const isProject = !['home', 'about', 'education', 'experience'].includes(section.id);
     const url = isProject
       ? currentSlideIndex === 0
         ? `/projects/${section.id}`

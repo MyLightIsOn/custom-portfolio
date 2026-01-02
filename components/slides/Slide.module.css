@@ -120,6 +120,48 @@
   margin-bottom: var(--spacing-sm);
 }
 
+.expHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.25rem;
+}
+
+.expPeriod {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.expCompany {
+  font-size: 1.125rem;
+  font-weight: var(--font-weight-medium, 500);
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.list {
+  list-style-type: none;
+  padding: 0;
+  margin: var(--spacing-md) 0;
+}
+
+.listItem {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+.listItem::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--color-primary);
+  font-weight: bold;
+}
+
 .overline {
   font-size: 0.875rem;
   font-weight: var(--font-weight-medium, 500);
