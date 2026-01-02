@@ -36,7 +36,7 @@ export const FloatingNav: React.FC<FloatingNavProps> = ({
   const toggleMenu = () => {
     const newMenuState = !menuOpen;
     setMenuOpen(newMenuState);
-    
+
     if (newMenuState) {
       // Set focus to current slide when opening
       const currentIndex = items.findIndex(item => item.id === currentSlide);

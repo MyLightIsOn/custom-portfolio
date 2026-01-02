@@ -25,9 +25,9 @@
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
-  background: var(--color-background);
+  background: var(--color-text-secondary);
   border: 2px solid var(--color-text);
-  color: var(--color-text);
+  color: var(--color-surface);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -42,13 +42,13 @@
 }
 
 .navButton:disabled {
-  opacity: 0.3;
+  opacity: 0.1;
   cursor: not-allowed;
 }
 
 .menuButton {
-  border-color: transparent;
   background: var(--color-background);
+  color: var(--color-text);
 }
 
 .menuButton:hover {
