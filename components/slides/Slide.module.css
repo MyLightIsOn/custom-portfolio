@@ -6,7 +6,7 @@
   justify-content: center;
   background: var(--color-background);
   color: var(--color-text);
-  padding: var(--spacing-xl);
+  padding: 0 0 0 0;
 }
 
 .slideContent {
