@@ -14,7 +14,7 @@ interface SlideContainerProps {
   slides: Slide[];
 }
 
-export const SlideContainer: React.FC<SlideContainerProps> = ({ slides }) => {
+export const useSlideContainer = (slides: Slide[]) => {
   const router = useRouter();
   const pathname = usePathname();
   const [currentIndex, setCurrentIndex] = useState(0);

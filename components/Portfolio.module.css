@@ -1,6 +1,6 @@
 .portfolio {
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
   overflow: scroll;
   position: relative;
   background: var(--color-background);

@@ -9,6 +9,7 @@ import { AboutSlide } from './slides/AboutSlide';
 import { EducationSlide } from './slides/EducationSlide';
 import { ProjectSlide } from './slides/ProjectSlide';
 import { ProjectSubSlide } from './slides/ProjectSubSlide';
+import { SlideDots } from './SlideDots';
 import styles from './Portfolio.module.css';
 
 interface PortfolioProps {
@@ -196,6 +197,12 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
     }
   };
 
+  const handleDotClick = (index: number) => {
+    if (index === currentSlideIndex || isAnimating) return;
+    const direction = index > currentSlideIndex ? 'forward' : 'backward';
+    navigateToSlide(index, direction);
+  };
+
   const hasPrevious = currentSlideIndex > 0;
   const hasNext = currentSlideIndex < sections[currentSectionIndex].slides.length - 1;
   
@@ -231,6 +238,12 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
           </div>
         )}
       </div>
+      
+      <SlideDots
+        totalSlides={sections[currentSectionIndex]?.slides.length || 0}
+        currentSlideIndex={currentSlideIndex}
+        onDotClick={handleDotClick}
+      />
       
       <FloatingNav
         items={navItems}
