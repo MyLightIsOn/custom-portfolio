@@ -41,13 +41,13 @@ export interface Theme {
 export const defaultTheme: Theme = {
   name: 'default',
   colors: {
-    primary: '#3B82F6',
+    primary: '#fd5c63',
     secondary: '#8B5CF6',
     accent: '#EC4899',
     background: '#FFFFFF',
     surface: '#F9FAFB',
     text: '#111827',
-    textSecondary: '#6B7280',
+    textSecondary: '#484848',
   },
   typography: {
     fontFamily: {
