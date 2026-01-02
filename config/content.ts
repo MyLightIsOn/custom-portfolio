@@ -4,6 +4,7 @@ export interface PersonalInfo {
   bio: string;
   email?: string;
   location?: string;
+  slides?: ProjectSlideContent[];
 }
 
 export interface Project {
@@ -57,9 +58,11 @@ export interface PortfolioContent {
     title: string;
     content: string;
     skills?: string[];
+    slides?: ProjectSlideContent[];
   };
   education: Education[];
   experience?: Experience[];
+  slides?: ProjectSlideContent[];
   projects: Project[];
 }
 
@@ -68,6 +71,12 @@ export const portfolioContent: PortfolioContent = {
     name: 'Lawrence Moore',
     title: 'Creative Technologist',
     bio: 'UX Engineering, Design, Artificial Intelligence and Accessibility',
+    slides: [
+      {
+        title: 'My AirBnB Portfolio',
+        content: 'I created this portfolio to showcase my work in relation to the Staff AI Innovation Engineer role. Use the nav at the bottom to explore my projects and learn more about my background. Each page is it\'s own slide show.'
+      }
+    ]
   },
   about: {
     title: 'About Me',
@@ -85,6 +94,12 @@ export const portfolioContent: PortfolioContent = {
       'Prototyping',
       'Tailwind CSS',
     ],
+    slides: [
+      {
+        title: 'Experience & Background',
+        content: 'Throughout my career, I have worked with startups and large enterprises to deliver high-quality digital products. I am passionate about clean code, accessibility, and user-centric design.'
+      }
+    ]
   },
   education: [
     {

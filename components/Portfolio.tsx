@@ -9,6 +9,7 @@ import { AboutSlide } from './slides/AboutSlide';
 import { EducationSlide } from './slides/EducationSlide';
 import { ProjectSlide } from './slides/ProjectSlide';
 import { ProjectSubSlide } from './slides/ProjectSubSlide';
+import { GenericSubSlide } from './slides/GenericSubSlide';
 import { SlideDots } from './SlideDots';
 import styles from './Portfolio.module.css';
 
@@ -41,19 +42,46 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
     sectionList.push({
       id: 'home',
       title: 'Home',
-      slides: [<HomeSlide key="home-0" personal={content.personal} />],
+      slides: [
+        <HomeSlide key="home-0" personal={content.personal} />,
+        ...(content.personal.slides?.map((slide, index) => (
+          <GenericSubSlide 
+            key={`home-${index + 1}`} 
+            slideContent={slide} 
+            parentTitle={content.personal.name} 
+          />
+        )) || [])
+      ],
     });
 
     sectionList.push({
       id: 'about',
       title: 'About',
-      slides: [<AboutSlide key="about-0" about={content.about} />],
+      slides: [
+        <AboutSlide key="about-0" about={content.about} />,
+        ...(content.about.slides?.map((slide, index) => (
+          <GenericSubSlide 
+            key={`about-${index + 1}`} 
+            slideContent={slide} 
+            parentTitle={content.about.title} 
+          />
+        )) || [])
+      ],
     });
 
     sectionList.push({
       id: 'education',
       title: 'Education',
-      slides: [<EducationSlide key="education-0" education={content.education} />],
+      slides: [
+        <EducationSlide key="education-0" education={content.education} />,
+        ...(content.slides?.map((slide, index) => (
+          <GenericSubSlide 
+            key={`education-${index + 1}`} 
+            slideContent={slide} 
+            parentTitle="Education" 
+          />
+        )) || [])
+      ],
     });
 
     content.projects.forEach((project) => {
@@ -96,6 +124,7 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
 
     if (pathParts[0] === 'home' || pathParts[0] === 'about' || pathParts[0] === 'education') {
       sectionId = pathParts[0];
+      slideIndex = pathParts[1] ? parseInt(pathParts[1], 10) : 0;
     } else if (pathParts[0] === 'projects') {
       sectionId = pathParts[1];
       slideIndex = pathParts[2] ? parseInt(pathParts[2], 10) : 0;
@@ -122,7 +151,9 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
       ? currentSlideIndex === 0
         ? `/projects/${section.id}`
         : `/projects/${section.id}/${currentSlideIndex}`
-      : `/${section.id}`;
+      : currentSlideIndex === 0
+        ? `/${section.id}`
+        : `/${section.id}/${currentSlideIndex}`;
 
     window.history.replaceState({}, '', url);
   }, [currentSectionIndex, currentSlideIndex, sections]);
