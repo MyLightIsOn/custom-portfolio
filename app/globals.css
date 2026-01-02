@@ -29,8 +29,8 @@ body {
   --color-surface: #f9fafb;
   --color-text: #111827;
   --color-text-secondary: #6b7280;
-  --font-heading: system-ui, -apple-system, sans-serif;
-  --font-body: system-ui, -apple-system, sans-serif;
+  --font-heading: var(--font-montserrat), system-ui, -apple-system, sans-serif;
+  --font-body: var(--font-montserrat), system-ui, -apple-system, sans-serif;
   --spacing-sm: 0.5rem;
   --spacing-md: 1rem;
   --spacing-lg: 2rem;
