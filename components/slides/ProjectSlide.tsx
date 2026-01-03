@@ -13,9 +13,10 @@ export const ProjectSlide: React.FC<ProjectSlideProps> = ({ project }) => {
     <div className={styles.slide}>
       <div className={styles.slideContent}>
         <h2 className={styles.heading}>{project.title}</h2>
-        <p className={styles.paragraph}>
-          {project.longDescription || project.description}
-        </p>
+        <p
+          className={styles.paragraph}
+          dangerouslySetInnerHTML={{ __html: project.longDescription || project.description }}
+        />
 
         <div className={styles.section}>
           <h3 className={styles.subheading}>Technologies</h3>

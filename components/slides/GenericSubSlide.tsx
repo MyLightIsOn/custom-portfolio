@@ -22,7 +22,7 @@ export const GenericSubSlide: React.FC<GenericSubSlideProps> = ({
         {slideContent.title && (
           <h2 className={styles.heading}>{slideContent.title}</h2>
         )}
-        <p className={styles.paragraph}>{slideContent.content}</p>
+        <p className={styles.paragraph} dangerouslySetInnerHTML={{ __html: slideContent.content }} />
         {slideContent.skills && (
           <div className={styles.skillsContainer}>
             {slideContent.skills.map((skill, index) => (

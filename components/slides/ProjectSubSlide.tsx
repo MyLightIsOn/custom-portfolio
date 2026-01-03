@@ -9,9 +9,9 @@ interface ProjectSubSlideProps {
   projectTitle: string;
 }
 
-export const ProjectSubSlide: React.FC<ProjectSubSlideProps> = ({ 
-  slideContent, 
-  projectTitle 
+export const ProjectSubSlide: React.FC<ProjectSubSlideProps> = ({
+  slideContent,
+  projectTitle
 }) => {
   return (
     <div className={styles.slide}>
@@ -20,7 +20,7 @@ export const ProjectSubSlide: React.FC<ProjectSubSlideProps> = ({
         {slideContent.title && (
           <h2 className={styles.heading}>{slideContent.title}</h2>
         )}
-        <p className={styles.paragraph}>{slideContent.content}</p>
+        <p className={styles.paragraph} dangerouslySetInnerHTML={{ __html: slideContent.content }} />
       </div>
     </div>
   );

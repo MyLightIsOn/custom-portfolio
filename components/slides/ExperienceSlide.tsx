@@ -21,11 +21,15 @@ export const ExperienceSlide: React.FC<ExperienceSlideProps> = ({ experience }) 
               <span className={styles.expPeriod}>{exp.period}</span>
             </div>
             <p className={styles.expCompany}>{exp.company}</p>
-            <p className={styles.paragraph}>{exp.description}</p>
+            <p className={styles.paragraph} dangerouslySetInnerHTML={{ __html: exp.description }} />
             {exp.achievements && exp.achievements.length > 0 && (
               <ul className={styles.list}>
                 {exp.achievements.map((achievement, i) => (
-                  <li key={i} className={styles.listItem}>{achievement}</li>
+                  <li 
+                    key={i} 
+                    className={styles.listItem}
+                    dangerouslySetInnerHTML={{ __html: achievement }}
+                  />
                 ))}
               </ul>
             )}

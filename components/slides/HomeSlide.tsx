@@ -14,7 +14,7 @@ export const HomeSlide: React.FC<HomeSlideProps> = ({ personal }) => {
       <div className={styles.slideContent}>
         <h1 className={styles.heading}>{personal.name}</h1>
         <p className={styles.title}>{personal.title}</p>
-        <p className={styles.bio}>{personal.bio}</p>
+        <p className={styles.bio} dangerouslySetInnerHTML={{ __html: personal.bio }} />
         {personal.location && (
           <p className={styles.meta}>📍 {personal.location}</p>
         )}
