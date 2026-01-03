@@ -58,7 +58,7 @@ export const portfolioContent: PortfolioContent = {
     name: 'Welcome AirBnB people!',
     logo: '/images/airbnb-logo.webp',
     title: '',
-    bio: 'Thank you for visiting my portfolio! I created this portfolio to showcase my work in relation to the Staff AI Innovation Engineer role. Use the nav at the bottom to explore my projects and learn more about my background. Each page is it\'s own slide show.',
+    bio: 'Thank you for visiting my portfolio! I created this to showcase my work in relation to the Staff AI Innovation Engineer role. Use the nav at the bottom to explore my projects and learn more about my background. Each page is it\'s own slide show.',
     slides: [
       {
         title: 'About Me',
@@ -83,10 +83,26 @@ export const portfolioContent: PortfolioContent = {
       company: 'T-Mobile',
       position: 'Technical Product Manager (Accessibility & AI Tooling)',
       period: 'Dec 2024 - Present',
-      description: 'Focus on artificial intelligence and human-computer interaction.',
+      description: 'I\'m a contractor that builds internal tools. Due to the positioning of accessibility, I interact with stakholders across the org, from product, to legal, to HR.',
       achievements: [
-        'Designed and built a new AI-powered onboarding experience for T-Mobile\'s new AirOnboard product.',
-        'Built a new AI-powered onboarding experience for T-Mobile\'s new AirOnboard product.',
+        'Designed and built a new AI-powered bug logger for T-Mobile\'s testing team.',
+        'Build AI driven dashboards that used reports to build charts and LLMs to explain the charts insights.',
+        'Partnered with HR to manage their internal tools UX and accessibility.',
+        'Interviewed employees and discovered the benefits portal was inaccessible.',
+        'Led workshops on incorporating AI automation into everyday workflows.',
+      ],
+    },
+    {
+      company: 'Seismic',
+      position: 'Technical Product Manager (Accessibility & AI Tooling)',
+      period: 'Dec 2024 - Present',
+      description: 'I\'m a contractor that builds internal tools. Due to the positioning of accessibility, I interact with stakholders across the org, from product, to legal, to HR.',
+      achievements: [
+        'Designed and built a new AI-powered bug logger for T-Mobile\'s testing team.',
+        'Build AI driven dashboards that used reports to build charts and LLMs to explain the charts insights.',
+        'Partnered with HR to manage their internal tools UX and accessibility.',
+        'Interviewed employees and discovered the benefits portal was inaccessible.',
+        'Led workshops on incorporating AI automation into everyday workflows.',
       ],
     },
   ],

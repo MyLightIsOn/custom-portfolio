@@ -57,9 +57,9 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
       sectionList.push({
         id: 'experience',
         title: 'Experience',
-        slides: [
-          <ExperienceSlide key="experience-0" experience={content.experience} />,
-        ],
+        slides: content.experience.map((exp, index) => (
+          <ExperienceSlide key={`experience-${index}`} experience={exp} />
+        )),
       });
     }
 

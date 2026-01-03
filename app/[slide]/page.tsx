@@ -8,7 +8,16 @@ export default function SlidePage() {
 export async function generateStaticParams() {
   const params = [
     { slide: 'home' },
+    { slide: 'experience' },
   ];
+
+  // Add experience slides if they exist
+  if (portfolioContent.experience && portfolioContent.experience.length > 1) {
+    portfolioContent.experience.forEach((_, index) => {
+      if (index === 0) return;
+      params.push({ slide: `experience/${index}` });
+    });
+  }
 
   // Add project pages with their sub-slides
   portfolioContent.projects.forEach((project) => {
