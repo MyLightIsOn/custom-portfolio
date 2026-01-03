@@ -23,14 +23,7 @@ export interface ProjectSlideContent {
   title?: string;
   content: string;
   image?: string;
-}
-
-export interface Education {
-  institution: string;
-  degree: string;
-  field: string;
-  year: string;
-  description?: string;
+  skills?: string[];
 }
 
 export interface Experience {
@@ -48,19 +41,12 @@ export interface Section {
 }
 
 export interface SlideData {
-  type: 'home' | 'about' | 'education' | 'project' | 'custom';
+  type: 'home' | 'project' | 'custom';
   data: any;
 }
 
 export interface PortfolioContent {
   personal: PersonalInfo;
-  about: {
-    title: string;
-    content: string;
-    skills?: string[];
-    slides?: ProjectSlideContent[];
-  };
-  education: Education[];
   experience?: Experience[];
   slides?: ProjectSlideContent[];
   projects: Project[];
@@ -75,49 +61,34 @@ export const portfolioContent: PortfolioContent = {
       {
         title: 'My AirBnB Portfolio',
         content: 'I created this portfolio to showcase my work in relation to the Staff AI Innovation Engineer role. Use the nav at the bottom to explore my projects and learn more about my background. Each page is it\'s own slide show.'
+      },
+      {
+        title: 'About Me',
+        content: 'I have a hard time defining myself. I\'m a designer, developer, and general technology tinkerer. My hobby is discovering interesting technology and seeing what I can build with it. For over 15 years, I have been blending human-centered design with cutting-edge technology. Here are a collection of some of the things I\'m good at.',
+        skills: [
+          'JS Frameworks',
+          'TypeScript',
+          'AI/LLM Integration',
+          'AI System Design',
+          'Product Thinking',
+          'System Design',
+          'UX Engineering',
+          'Interaction Design',
+          'Prototyping',
+        ],
       }
     ]
-  },
-  about: {
-    title: 'About Me',
-    content: 'I have a hard time defining myself. I\'m a designer, developer, and general technology tinkerer. My hobby is discovering interesting technology and seeing what I can build with it. For over 15 years, I have been blending human-centered design with cutting-edge technology. Here are a collection of some of the things I\'m good at.',
-    skills: [
-      'JS Frameworks',
-      'TypeScript',
-      'AI/LLM Integration',
-      'AI System Design',
-      'Product Thinking',
-      'System Design',
-      'UX Engineering',
-      'Interaction Design',
-      'Prototyping',
-    ],
-    /*slides: [
-      {
-        title: 'Experience & Background',
-        content: 'Throughout my career, I have worked with startups and large enterprises to deliver high-quality digital products. I am passionate about clean code, accessibility, and user-centric design.'
-      }
-    ]*/
   },
   experience: [
     {
       company: 'T-Mobile',
-      position: 'Technical Product Manager (Accessibilitly & AI Tooling)',
+      position: 'Technical Product Manager (Accessibility & AI Tooling)',
       period: 'Dec 2024 - Present',
       description: 'Focus on artificial intelligence and human-computer interaction.',
       achievements: [
         'Designed and built a new AI-powered onboarding experience for T-Mobile\'s new AirOnboard product.',
         'Built a new AI-powered onboarding experience for T-Mobile\'s new AirOnboard product.',
       ],
-    },
-  ],
-  education: [
-    {
-      institution: 'Your University',
-      degree: 'Bachelor of Science',
-      field: 'Computer Science',
-      year: '20XX',
-      description: 'Focus on artificial intelligence and human-computer interaction.',
     },
   ],
   projects: [

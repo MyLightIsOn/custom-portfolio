@@ -5,8 +5,6 @@ import { useRouter, usePathname } from 'next/navigation';
 import { PortfolioContent } from '@/config/content';
 import { FloatingNav } from './FloatingNav';
 import { HomeSlide } from './slides/HomeSlide';
-import { AboutSlide } from './slides/AboutSlide';
-import { EducationSlide } from './slides/EducationSlide';
 import { ExperienceSlide } from './slides/ExperienceSlide';
 import { ProjectSlide } from './slides/ProjectSlide';
 import { ProjectSubSlide } from './slides/ProjectSubSlide';
@@ -50,36 +48,6 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
             key={`home-${index + 1}`} 
             slideContent={slide} 
             parentTitle={content.personal.name} 
-          />
-        )) || [])
-      ],
-    });
-
-    sectionList.push({
-      id: 'about',
-      title: 'About',
-      slides: [
-        <AboutSlide key="about-0" about={content.about} />,
-        ...(content.about.slides?.map((slide, index) => (
-          <GenericSubSlide 
-            key={`about-${index + 1}`} 
-            slideContent={slide} 
-            parentTitle={content.about.title} 
-          />
-        )) || [])
-      ],
-    });
-
-    sectionList.push({
-      id: 'education',
-      title: 'Education',
-      slides: [
-        <EducationSlide key="education-0" education={content.education} />,
-        ...(content.slides?.map((slide, index) => (
-          <GenericSubSlide 
-            key={`education-${index + 1}`} 
-            slideContent={slide} 
-            parentTitle="Education" 
           />
         )) || [])
       ],
@@ -133,7 +101,7 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
     let sectionId: string;
     let slideIndex = 0;
 
-    if (pathParts[0] === 'home' || pathParts[0] === 'about' || pathParts[0] === 'education' || pathParts[0] === 'experience') {
+    if (pathParts[0] === 'home' || pathParts[0] === 'experience') {
       sectionId = pathParts[0];
       slideIndex = pathParts[1] ? parseInt(pathParts[1], 10) : 0;
     } else if (pathParts[0] === 'projects') {
@@ -157,7 +125,7 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
     const section = sections[currentSectionIndex];
     if (!section) return;
 
-    const isProject = !['home', 'about', 'education', 'experience'].includes(section.id);
+    const isProject = !['home', 'experience'].includes(section.id);
     const url = isProject
       ? currentSlideIndex === 0
         ? `/projects/${section.id}`

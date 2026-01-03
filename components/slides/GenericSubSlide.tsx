@@ -23,6 +23,15 @@ export const GenericSubSlide: React.FC<GenericSubSlideProps> = ({
           <h2 className={styles.heading}>{slideContent.title}</h2>
         )}
         <p className={styles.paragraph}>{slideContent.content}</p>
+        {slideContent.skills && (
+          <div className={styles.skillsContainer}>
+            {slideContent.skills.map((skill, index) => (
+              <span key={index} className={styles.skillBadge}>
+                {skill}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

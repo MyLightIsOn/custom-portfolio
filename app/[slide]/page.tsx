@@ -8,8 +8,6 @@ export default function SlidePage() {
 export async function generateStaticParams() {
   const params = [
     { slide: 'home' },
-    { slide: 'about' },
-    { slide: 'education' },
   ];
 
   // Add project pages with their sub-slides
