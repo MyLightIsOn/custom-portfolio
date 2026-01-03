@@ -11,6 +11,7 @@
 html,
 body {
   height: 100%;
+  overflow: hidden;
 }
 
 body {
@@ -19,6 +20,7 @@ body {
   color: var(--color-text, #111827);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  position: relative;
 }
 
 :root {

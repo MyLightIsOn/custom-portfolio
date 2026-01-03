@@ -7,7 +7,7 @@ const Header = () => {
     const { theme } = useTheme();
     return (
         <div
-            className={"w-full h-8"}
+            className={"w-full h-6 absolute top-0 z-10"}
             style={{ backgroundColor: theme.colors.primary }}
         >
         </div>

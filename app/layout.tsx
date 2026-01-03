@@ -24,7 +24,7 @@ export default function RootLayout({
     <html lang="en" className={montserrat.variable}>
       <body>
         <ThemeProvider theme={defaultTheme}>
-            {/*<Header />*/}
+            <Header />
             {children}
         </ThemeProvider>
       </body>
