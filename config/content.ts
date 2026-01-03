@@ -1,5 +1,6 @@
 export interface PersonalInfo {
   name: string;
+  logo?: string;
   title: string;
   bio: string;
   email?: string;
@@ -54,19 +55,16 @@ export interface PortfolioContent {
 
 export const portfolioContent: PortfolioContent = {
   personal: {
-    name: 'Lawrence Moore',
-    title: 'Creative Technologist',
-    bio: 'UX Engineering, Design, Artificial Intelligence and Accessibility',
+    name: 'Welcome AirBnB people!',
+    logo: '/images/airbnb-logo.webp',
+    title: '',
+    bio: 'Thank you for visiting my portfolio! I created this portfolio to showcase my work in relation to the Staff AI Innovation Engineer role. Use the nav at the bottom to explore my projects and learn more about my background. Each page is it\'s own slide show.',
     slides: [
       {
-        title: 'My AirBnB Portfolio',
-        content: 'I created this portfolio to showcase my work in relation to the Staff AI Innovation Engineer role. Use the nav at the bottom to explore my projects and learn more about my background. Each page is it\'s own slide show.'
-      },
-      {
         title: 'About Me',
-        content: 'I have a hard time defining myself. I\'m a designer, developer, and general technology tinkerer. My hobby is discovering interesting technology and seeing what I can build with it. For over 15 years, I have been blending human-centered design with cutting-edge technology. Here are a collection of some of the things I\'m good at.',
+        content: 'I have a hard time defining myself. I\'m a designer, developer, and general technology tinkerer. My hobby is discovering interesting technology and seeing what I can build with it. For over 15 years, I have been blending human-centered design with cutting-edge technology. Here are a collection of some of the things I\'m good at:',
         skills: [
-          'JS Frameworks',
+          'Javascript',
           'TypeScript',
           'AI/LLM Integration',
           'AI System Design',
@@ -75,6 +73,7 @@ export const portfolioContent: PortfolioContent = {
           'UX Engineering',
           'Interaction Design',
           'Prototyping',
+          'Accessibility',
         ],
       }
     ]

@@ -189,3 +189,11 @@
   border: 1px solid var(--color-primary);
 }
 
+.logoContainer {
+  margin-bottom: var(--spacing-md);
+}
+
+.logo {
+  object-fit: contain;
+}
+
