@@ -3,6 +3,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { ProjectSlideContent } from '@/config/content';
 import { ImageModal } from '@/components/ImageModal';
+import { VideoModal } from '@/components/VideoModal';
 import styles from './Slide.module.css';
 
 interface ProjectSubSlideProps {
@@ -16,13 +17,14 @@ export const ProjectSubSlide: React.FC<ProjectSubSlideProps> = ({
 }) => {
   const contentRef = useRef<HTMLParagraphElement>(null);
   const [modalImage, setModalImage] = useState<{ src: string; alt: string } | null>(null);
+  const [modalVideo, setModalVideo] = useState<string | null>(null);
 
   useEffect(() => {
     const contentEl = contentRef.current;
     if (!contentEl) return;
 
+    // Handle images
     const images = contentEl.querySelectorAll('img');
-    
     images.forEach((img) => {
       img.style.cursor = 'pointer';
       img.title = 'Click to enlarge';
@@ -37,9 +39,26 @@ export const ProjectSubSlide: React.FC<ProjectSubSlideProps> = ({
       img.addEventListener('click', handleClick);
     });
 
+    // Handle videos
+    const videos = contentEl.querySelectorAll('video');
+    videos.forEach((video) => {
+      video.style.cursor = 'pointer';
+      video.title = 'Click to expand';
+      
+      const handleClick = () => {
+        video.pause();
+        setModalVideo(video.src);
+      };
+      
+      video.addEventListener('click', handleClick);
+    });
+
     return () => {
       images.forEach((img) => {
         img.replaceWith(img.cloneNode(true));
+      });
+      videos.forEach((video) => {
+        video.replaceWith(video.cloneNode(true));
       });
     };
   }, [slideContent.content]);
@@ -63,6 +82,12 @@ export const ProjectSubSlide: React.FC<ProjectSubSlideProps> = ({
         alt={modalImage?.alt || ''}
         isOpen={!!modalImage}
         onClose={() => setModalImage(null)}
+      />
+
+      <VideoModal
+        src={modalVideo || ''}
+        isOpen={!!modalVideo}
+        onClose={() => setModalVideo(null)}
       />
     </div>
   );
