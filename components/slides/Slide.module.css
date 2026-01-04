@@ -241,3 +241,9 @@
   left: 0;
   color: var(--color-primary);
 }
+
+.paragraph img {
+  border: 2px solid var(--color-primary);
+  padding: 25px;
+  margin-top: 10px;
+}

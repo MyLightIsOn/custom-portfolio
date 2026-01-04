@@ -206,31 +206,10 @@ export const portfolioContent: PortfolioContent = {
         },
         {
           title: "System Architecture",
-          content: `**AirOnboard: Intelligent Onboarding in Action**
+          content: `Here is a high-level overview of the system architecture. I explain what\'s happening in the demo video on the next slide. Click on the image to get a better view.
 
-[DEMO VIDEO PLACEHOLDER]
-
-
-**What You'll See:**
-
-• **Landing Page** – Select from 3 demo roles (Engineer, PM, HR Coordinator)
-
-• **Personalized Dashboard** – Each role gets unique content, tasks, and recommendations
-
-• **4 Interactive Widgets** – Checklist, Policies, People to Meet, Learning Path
-
-• **AI Chat Interface** – Toggle between mock and real Claude API responses
-
-• **Behind the Scenes** – Visualize Skills architecture and token efficiency
-
-• **Role Comparison** – Switch roles to see how content changes
-
-
-**Live at:** aironboard-demo.vercel.app
-
-
-Try it yourself! Ask the AI assistant about policies, switch between roles, explore the architecture visualization.`,
-          image: "/demo-placeholder.png",
+          <img src="/images/aironboard-architecture.png" alt="AirOnboard Architecture" />
+          `,
         },
         {
           title: "Live Demo",
