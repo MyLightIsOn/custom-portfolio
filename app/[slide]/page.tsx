@@ -23,7 +23,7 @@ export async function generateStaticParams() {
   portfolioContent.projects.forEach((project) => {
     // First slide (overview)
     params.push({ slide: project.id });
-    
+
     // Additional slides if they exist
     if (project.slides && project.slides.length > 0) {
       project.slides.forEach((_, index) => {
