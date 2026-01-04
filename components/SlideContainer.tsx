@@ -1,8 +1,7 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState, useRef } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
-import styles from './SlideContainer.module.css';
+import React, { useEffect, useState, useRef } from "react";
+import { useRouter, usePathname } from "next/navigation";
 
 interface Slide {
   id: string;
@@ -10,15 +9,13 @@ interface Slide {
   content: React.ReactNode;
 }
 
-interface SlideContainerProps {
-  slides: Slide[];
-}
-
 export const useSlideContainer = (slides: Slide[]) => {
   const router = useRouter();
   const pathname = usePathname();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState<'horizontal' | 'vertical'>('horizontal');
+  const [direction, setDirection] = useState<"horizontal" | "vertical">(
+    "horizontal",
+  );
   const [isAnimating, setIsAnimating] = useState(false);
   const touchStartX = useRef(0);
   const touchStartY = useRef(0);
@@ -29,21 +26,21 @@ export const useSlideContainer = (slides: Slide[]) => {
     if (slideIndex !== -1 && slideIndex !== currentIndex) {
       const currentSection = slides[currentIndex]?.section;
       const newSection = slides[slideIndex].section;
-      setDirection(currentSection === newSection ? 'horizontal' : 'vertical');
+      setDirection(currentSection === newSection ? "horizontal" : "vertical");
       setCurrentIndex(slideIndex);
     }
   }, [pathname, slides]);
 
   const navigateToSlide = (index: number) => {
     if (index < 0 || index >= slides.length || isAnimating) return;
-    
+
     const currentSection = slides[currentIndex].section;
     const newSection = slides[index].section;
-    setDirection(currentSection === newSection ? 'horizontal' : 'vertical');
+    setDirection(currentSection === newSection ? "horizontal" : "vertical");
     setIsAnimating(true);
-    
+
     router.push(`/${slides[index].id}`);
-    
+
     setTimeout(() => {
       setIsAnimating(false);
     }, 500);
@@ -64,15 +61,15 @@ export const useSlideContainer = (slides: Slide[]) => {
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowRight') {
+      if (e.key === "ArrowRight") {
         goToNext();
-      } else if (e.key === 'ArrowLeft') {
+      } else if (e.key === "ArrowLeft") {
         goToPrevious();
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [currentIndex]);
 
   // Touch navigation

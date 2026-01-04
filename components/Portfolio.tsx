@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import React, { useMemo, useState, useEffect, useRef } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
-import { PortfolioContent } from '@/config/content';
-import { FloatingNav } from './FloatingNav';
-import { HomeSlide } from './slides/HomeSlide';
-import { ExperienceSlide } from './slides/ExperienceSlide';
-import { ProjectSlide } from './slides/ProjectSlide';
-import { ProjectSubSlide } from './slides/ProjectSubSlide';
-import { GenericSubSlide } from './slides/GenericSubSlide';
-import { SlideDots } from './SlideDots';
-import styles from './Portfolio.module.css';
+import React, { useMemo, useState, useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
+import { PortfolioContent } from "@/config/content";
+import { FloatingNav } from "./FloatingNav";
+import { HomeSlide } from "./slides/HomeSlide";
+import { ExperienceSlide } from "./slides/ExperienceSlide";
+import { ProjectSlide } from "./slides/ProjectSlide";
+import { ProjectSubSlide } from "./slides/ProjectSubSlide";
+import { GenericSubSlide } from "./slides/GenericSubSlide";
+import { SlideDots } from "./SlideDots";
+import styles from "./Portfolio.module.css";
 
 interface PortfolioProps {
   content: PortfolioContent;
@@ -23,15 +23,16 @@ interface Section {
 }
 
 export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
-  const router = useRouter();
   const pathname = usePathname();
-  
+
   const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [nextSlideIndex, setNextSlideIndex] = useState<number | null>(null);
   const [isAnimating, setIsAnimating] = useState(false);
-  const [animationDirection, setAnimationDirection] = useState<'forward' | 'backward'>('forward');
-  
+  const [animationDirection, setAnimationDirection] = useState<
+    "forward" | "backward"
+  >("forward");
+
   const touchStartX = useRef(0);
   const touchStartY = useRef(0);
 
@@ -39,24 +40,24 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
     const sectionList: Section[] = [];
 
     sectionList.push({
-      id: 'home',
-      title: 'Home',
+      id: "home",
+      title: "Home",
       slides: [
         <HomeSlide key="home-0" personal={content.personal} />,
         ...(content.personal.slides?.map((slide, index) => (
-          <GenericSubSlide 
-            key={`home-${index + 1}`} 
-            slideContent={slide} 
-            parentTitle={content.personal.name} 
+          <GenericSubSlide
+            key={`home-${index + 1}`}
+            slideContent={slide}
+            parentTitle={content.personal.name}
           />
-        )) || [])
+        )) || []),
       ],
     });
 
     if (content.experience && content.experience.length > 0) {
       sectionList.push({
-        id: 'experience',
-        title: 'Experience',
+        id: "experience",
+        title: "Experience",
         slides: content.experience.map((exp, index) => (
           <ExperienceSlide key={`experience-${index}`} experience={exp} />
         )),
@@ -65,7 +66,9 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
 
     content.projects.forEach((project) => {
       const projectSlides: React.ReactNode[] = [];
-      projectSlides.push(<ProjectSlide key={`${project.id}-0`} project={project} />);
+      projectSlides.push(
+        <ProjectSlide key={`${project.id}-0`} project={project} />,
+      );
 
       if (project.slides && project.slides.length > 0) {
         project.slides.forEach((slideContent, slideIndex) => {
@@ -74,7 +77,7 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
               key={`${project.id}-${slideIndex + 1}`}
               slideContent={slideContent}
               projectTitle={project.title}
-            />
+            />,
           );
         });
       }
@@ -90,21 +93,24 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
   }, [content]);
 
   const navItems = useMemo(() => {
-    return sections.map((section) => ({ id: section.id, label: section.title }));
+    return sections.map((section) => ({
+      id: section.id,
+      label: section.title,
+    }));
   }, [sections]);
 
   // Sync URL on mount
   useEffect(() => {
-    const pathParts = pathname.split('/').filter(Boolean);
+    const pathParts = pathname.split("/").filter(Boolean);
     if (pathParts.length === 0) return;
 
     let sectionId: string;
     let slideIndex = 0;
 
-    if (pathParts[0] === 'home' || pathParts[0] === 'experience') {
+    if (pathParts[0] === "home" || pathParts[0] === "experience") {
       sectionId = pathParts[0];
       slideIndex = pathParts[1] ? parseInt(pathParts[1], 10) : 0;
-    } else if (pathParts[0] === 'projects') {
+    } else if (pathParts[0] === "projects") {
       sectionId = pathParts[1];
       slideIndex = pathParts[2] ? parseInt(pathParts[2], 10) : 0;
     } else {
@@ -114,7 +120,10 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
 
     const sectionIndex = sections.findIndex((s) => s.id === sectionId);
     if (sectionIndex !== -1) {
-      const validSlideIndex = Math.min(slideIndex, sections[sectionIndex].slides.length - 1);
+      const validSlideIndex = Math.min(
+        slideIndex,
+        sections[sectionIndex].slides.length - 1,
+      );
       setCurrentSectionIndex(sectionIndex);
       setCurrentSlideIndex(validSlideIndex);
     }
@@ -125,7 +134,7 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
     const section = sections[currentSectionIndex];
     if (!section) return;
 
-    const isProject = !['home', 'experience'].includes(section.id);
+    const isProject = !["home", "experience"].includes(section.id);
     const url = isProject
       ? currentSlideIndex === 0
         ? `/projects/${section.id}`
@@ -134,10 +143,13 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
         ? `/${section.id}`
         : `/${section.id}/${currentSlideIndex}`;
 
-    window.history.replaceState({}, '', url);
+    window.history.replaceState({}, "", url);
   }, [currentSectionIndex, currentSlideIndex, sections]);
 
-  const navigateToSlide = (targetSlideIndex: number, direction: 'forward' | 'backward') => {
+  const navigateToSlide = (
+    targetSlideIndex: number,
+    direction: "forward" | "backward",
+  ) => {
     if (isAnimating) return;
 
     setAnimationDirection(direction);
@@ -155,13 +167,13 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
   const goToNext = () => {
     const currentSection = sections[currentSectionIndex];
     if (currentSlideIndex < currentSection.slides.length - 1) {
-      navigateToSlide(currentSlideIndex + 1, 'forward');
+      navigateToSlide(currentSlideIndex + 1, "forward");
     }
   };
 
   const goToPrevious = () => {
     if (currentSlideIndex > 0) {
-      navigateToSlide(currentSlideIndex - 1, 'backward');
+      navigateToSlide(currentSlideIndex - 1, "backward");
     }
   };
 
@@ -175,16 +187,16 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowRight') {
+      if (e.key === "ArrowRight") {
         e.preventDefault();
         goToNext();
-      } else if (e.key === 'ArrowLeft') {
+      } else if (e.key === "ArrowLeft") {
         e.preventDefault();
         goToPrevious();
       }
     };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [currentSectionIndex, currentSlideIndex, isAnimating]);
 
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -209,38 +221,46 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
 
   const handleDotClick = (index: number) => {
     if (index === currentSlideIndex || isAnimating) return;
-    const direction = index > currentSlideIndex ? 'forward' : 'backward';
+    const direction = index > currentSlideIndex ? "forward" : "backward";
     navigateToSlide(index, direction);
   };
 
   const hasPrevious = currentSlideIndex > 0;
-  const hasNext = currentSlideIndex < sections[currentSectionIndex].slides.length - 1;
-  
+  const hasNext =
+    currentSlideIndex < sections[currentSectionIndex].slides.length - 1;
+
   const currentSlide = sections[currentSectionIndex]?.slides[currentSlideIndex];
-  const incomingSlide = nextSlideIndex !== null ? sections[currentSectionIndex]?.slides[nextSlideIndex] : null;
+  const incomingSlide =
+    nextSlideIndex !== null
+      ? sections[currentSectionIndex]?.slides[nextSlideIndex]
+      : null;
 
   return (
-    <div className={styles.portfolio} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+    <div
+      className={styles.portfolio}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
       <div className={styles.slidesContainer}>
         {/* Current slide - slides out */}
-        <div 
+        <div
           className={`${styles.slideWrapper} ${
-            isAnimating 
-              ? animationDirection === 'forward' 
-                ? styles.slideOutLeft 
+            isAnimating
+              ? animationDirection === "forward"
+                ? styles.slideOutLeft
                 : styles.slideOutRight
               : styles.slideActive
           }`}
         >
           {currentSlide}
         </div>
-        
+
         {/* Incoming slide - slides in */}
         {isAnimating && incomingSlide && (
-          <div 
+          <div
             className={`${styles.slideWrapper} ${
-              animationDirection === 'forward' 
-                ? styles.slideInRight 
+              animationDirection === "forward"
+                ? styles.slideInRight
                 : styles.slideInLeft
             }`}
           >
@@ -248,16 +268,16 @@ export const Portfolio: React.FC<PortfolioProps> = ({ content }) => {
           </div>
         )}
       </div>
-      
+
       <SlideDots
         totalSlides={sections[currentSectionIndex]?.slides.length || 0}
         currentSlideIndex={currentSlideIndex}
         onDotClick={handleDotClick}
       />
-      
+
       <FloatingNav
         items={navItems}
-        currentSlide={sections[currentSectionIndex]?.id || 'home'}
+        currentSlide={sections[currentSectionIndex]?.id || "home"}
         onNavigate={handleMenuNavigate}
         onPrevious={goToPrevious}
         onNext={goToNext}
