@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { ProjectSlideContent } from '@/config/content';
-import styles from './Slide.module.css';
+import React from "react";
+import { ProjectSlideContent } from "@/config/content";
+import styles from "./Slide.module.css";
 
 interface GenericSubSlideProps {
   slideContent: ProjectSlideContent;
@@ -22,7 +22,10 @@ export const GenericSubSlide: React.FC<GenericSubSlideProps> = ({
         {slideContent.title && (
           <h2 className={styles.heading}>{slideContent.title}</h2>
         )}
-        <p className={styles.paragraph} dangerouslySetInnerHTML={{ __html: slideContent.content }} />
+        <div
+          className={styles.paragraph}
+          dangerouslySetInnerHTML={{ __html: slideContent.content }}
+        />
         {slideContent.skills && (
           <div className={styles.skillsContainer}>
             {slideContent.skills.map((skill, index) => (

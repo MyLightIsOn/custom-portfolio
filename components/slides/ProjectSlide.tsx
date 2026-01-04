@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { Project } from '@/config/content';
-import styles from './Slide.module.css';
+import React from "react";
+import { Project } from "@/config/content";
+import styles from "./Slide.module.css";
 
 interface ProjectSlideProps {
   project: Project;
@@ -13,9 +13,11 @@ export const ProjectSlide: React.FC<ProjectSlideProps> = ({ project }) => {
     <div className={styles.slide}>
       <div className={styles.slideContent}>
         <h2 className={styles.heading}>{project.title}</h2>
-        <p
+        <div
           className={styles.paragraph}
-          dangerouslySetInnerHTML={{ __html: project.longDescription || project.description }}
+          dangerouslySetInnerHTML={{
+            __html: project.longDescription || project.description,
+          }}
         />
 
         <div className={styles.section}>

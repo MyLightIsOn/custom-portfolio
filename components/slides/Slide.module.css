@@ -64,6 +64,10 @@
   margin-bottom: var(--spacing-lg);
 }
 
+.paragraph ul {
+  margin-top: var(--spacing-lg);
+}
+
 .section {
   margin-top: var(--spacing-lg);
   margin-bottom: var(--spacing-lg);
@@ -197,3 +201,43 @@
   object-fit: contain;
 }
 
+.paragraph :global(.solutions) {
+  margin-top: var(--spacing-lg);
+}
+
+.paragraph :global(.solutions) ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  gap: var(--spacing-md);
+}
+
+.paragraph :global(.solutions) > ul > li {
+  width: 50%;
+}
+
+.paragraph :global(.solutions) > ul > li > h3{
+  color: var(--color-primary);
+  font-weight: var(--font-weight-bold, 700);
+}
+
+.paragraph :global(.solutions) ul ul {
+  margin-bottom: var(--spacing-md);
+}
+
+.paragraph :global(.solutions) ul ul li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.25rem;
+  font-weight: normal;
+  color: var(--color-text);
+}
+
+.paragraph :global(.solutions) ul ul li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--color-primary);
+}
